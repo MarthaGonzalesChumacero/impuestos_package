@@ -1,3 +1,8 @@
-setuptools>=40.8.0
-wheel
+pytest
+pytest-cov
+requests-mock
 build
+twine
+# opcionales
+ruff
+black
