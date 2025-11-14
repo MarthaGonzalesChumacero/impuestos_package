@@ -9,7 +9,7 @@ class BCBAPIUFV:
 
     def _parse_valor(self, item: Dict) -> Optional[float]:
         # Intenta múltiples claves comunes
-        for key in ("valor", "dato", "ufv", "UFV", "value"):
+        for key in ("valor", "dato", "ufv", "UFV", "value", "Val_UFV"):
             if key in item:
                 raw = str(item[key]).strip()
                 raw = raw.replace(",", ".")  # por si viene con coma decimal

@@ -16,6 +16,8 @@ dependencies = ["requests>=2.31"]
 Homepage = "https://github.com/MarthaGonzalesChumacero/impuestos_package"
 Issues = "https://github.com/MarthaGonzalesChumacero/impuestos_package/issues"
 
+[tool.setuptools]
+package-dir = {"" = "src"}
+
 [tool.setuptools.packages.find]
 where = ["src"]
-

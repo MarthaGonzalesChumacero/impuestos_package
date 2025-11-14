@@ -1,33 +1,37 @@
 """
-Ejemplo básico de uso de la librería impuestos_package
+Ejemplo de cálculo legal puro con impuestos_package
+Basado en Ley 2492 (art. 47 y 165)
 """
+
+import sys
+import os
+sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'src'))
 
 from impuestos_package.calculadora import CalculadoraDeuda
 
-# --- OPCIONAL: usar DummyAPI en lugar de la API real ---
+# --- DummyAPI con las UFV reales 2025-06-23 → 2025-11-10 ---
 class DummyAPI:
     def _parse_valor(self, item):
-        # Simula el comportamiento del método _parse_valor de BCBAPIUFV
         return float(item["valor"]) if float(item["valor"]) > 0 else None
 
     def consumir_endpoint(self, fi, ff, timeout=10):
-        # Simula la respuesta de la API: UFV inicial 2.27267 y final 2.8689
-        return [{"valor": "2.27267"}, {"valor": "2.8689"}]
+        # UFV reales de las fechas solicitadas
+        return [{"valor": "2.73596"}, {"valor": "2.96361"}]
 
 import impuestos_package.calculadora as calc_mod
 calc_mod.BCBAPIUFV = DummyAPI
-# -------------------------------------------------------
+# -------------------------------------------------------------
 
 def main():
-    # Datos de ejemplo
-    TO = 383  # Total Original
-    fecha_inicio = "2018-07-20"
-    fecha_fin = "2025-09-15"
-    tasa = 18       # 12% anual
-    dias = 1461       # días de retraso
-    porcentaje = 12 # sanción en %
+    # Datos reales del ejemplo
+    TO = 500                 # Tributo omitido
+    fecha_inicio = "2025-06-23"
+    fecha_fin = "2025-11-10"
+    tasa = 6                 # Tasa anual de interés (Ley 2492, DS 27310)
+    dias = 140               # Días de mora reales
+    porcentaje = 12          # Sanción del 12% (pago voluntario)
 
-    # Crear instancia de la calculadora
+    # Crear instancia
     calc = CalculadoraDeuda(
         TO=TO,
         fecha_inicio=fecha_inicio,
@@ -41,7 +45,8 @@ def main():
     resultado = calc.calcular()
 
     # Mostrar resultados
-    print(" Resultado de la deuda tributaria:")
+    print("\nCálculo legal según Ley 2492:")
+    print("-----------------------------")
     for k, v in resultado.items():
         print(f"{k}: {v}")
 
